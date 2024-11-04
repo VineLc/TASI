@@ -262,12 +262,18 @@ const Busca = ({ callback }) => {
       <Box key={linha._id} sx={{ display: 'inline-block', margin: 1 }}>
         <Card>
           <CardContent>            
-            <Typography variant="h2">{linha.nome}</Typography>
-            <Typography variant="h6">Descrição: {linha.descricao}</Typography>
-            <Typography variant="h6">Quantidade: {linha.quantidade}</Typography>            
-            <Typography variant="h3">Preço: R$ {linha.preco}</Typography>
+            <Typography variant="h3">{linha.nome}</Typography> <br/> 
+            <Typography variant="h7">Descrição: {linha.descricao}</Typography> <br/> 
+            <Typography variant="h7">Quantidade: {linha.quantidade}</Typography>  <br/>            
+            <Typography variant="h4">Preço: R$ {linha.preco}</Typography> <br/> 
             <Typography variant="h7">ID:{linha._id}</Typography> <br/>  
-            {imageUrl && <img src={imageUrl} alt={linha.imagem} style={{ width: '100%' }} />} {/* Exibe a imagem se existir */}
+            {imageUrl && (
+            <img 
+              src={imageUrl} 
+              alt={linha.nome} 
+              style={{ width: '70%', objectFit: 'cover', maxHeight: '250px', }} 
+            />
+          )}
             </CardContent>
         </Card>
       </Box>
@@ -443,6 +449,10 @@ const Principal = ({ callback }) => {
   const Delete = async () => { 
     navigate('/deletar'); 
   };
+  const Deslogar = () => {
+    localStorage.removeItem("token");
+    navigate('/login');
+  };
 
   return (
     <div style={{
@@ -458,7 +468,8 @@ const Principal = ({ callback }) => {
       <button type="button" onClick={Create}>Novo</button><br/>
       <button type="button" onClick={Read}>Buscar</button><br/>
       <button type="button" onClick={Update}>Alterar</button><br/>
-      <button type="button" onClick={Delete}>Deletar</button>
+      <button type="button" onClick={Delete}>Deletar</button><br/><br/>
+      <button type="button" onClick={Deslogar}>Deslogar</button>
     </div>
   );
 };
@@ -470,11 +481,7 @@ const App = () => {
     setAuthentication(true);
     window.location = "/";
   };
-
-  const Deslogar = () => {
-    localStorage.removeItem("token");
-    setAuthentication(false);
-  };
+  
 
   useEffect(() => {
     VerificaLogin();
